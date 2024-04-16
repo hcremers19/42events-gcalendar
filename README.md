@@ -27,7 +27,10 @@ yarn test
 
 ## Roadmap
 
+- Don't insert doubles
 - Generate the tokens in the app via the user's client id and client secret
 - Convert the script into a web app
 - Allow the user to change the dates and the colors in-app
 - Allow any user of 42 and Google to use the app with their credentials
+- Show events related only to the user and not to the whole campus
+- Remove debug lines and send to prod

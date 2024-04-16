@@ -115,5 +115,3 @@ const begin_at = '2024-04-15'
 const end_at = '2024-04-22' // Excluded from scope, so count 1 more day
 
 main()
-
-// Token creation (+ recréé seulement si expiré)

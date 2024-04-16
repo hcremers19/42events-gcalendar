@@ -14,7 +14,7 @@ Install the modules
 yarn install
 ```
 
-Rename `.env.example` to `.env` and insert your updated tokens where needed. (You need to have an [42API app](https://api.intra.42.fr/apidoc/guides/getting_started) and a [Google Developer app](https://console.cloud.google.com/) setup)
+Rename `.env.example` to `.env` and insert your current tokens where needed. (You need to have a [42API app](https://api.intra.42.fr/apidoc/guides/getting_started) and a [Google Developer app](https://console.cloud.google.com/) setup)
 ```settings
 TOKEN_42=<your token here>
 TOKEN_GOOGLE=<your token here>

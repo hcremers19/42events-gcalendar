@@ -5,11 +5,10 @@
   "author": "ion",
   "license": "MIT",
   "scripts": {
-    "test": "node agenda.js"
+    "test": "node --env-file=.env agenda.js"
   },
   "dependencies": {
-    "colors": "^1.4.0",
-    "dotenv": "^16.4.5"
+    "colors": "^1.4.0"
   },
   "type": "module"
 }

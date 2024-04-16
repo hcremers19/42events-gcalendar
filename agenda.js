@@ -17,7 +17,13 @@ async function getEvents(exam) {
 		.catch((error) => console.error(error));
 
 	if (result.error) {
-		console.error(`GET Error ${result.status}: `.red + result.error);
+		if (result.status) {
+			console.error(`GET Error: ${result.status}. `.red + result.error);
+		} else if (result.message) {
+			console.error(`GET Error: ${result.error}. `.red + result.message);
+		} else {
+			console.error(result);
+		}
 		return null;
 	}
 	else {
@@ -95,20 +101,19 @@ async function main() {
 			console.log("POST OK!".green + ` Inserted ${i + 1} event${i ? 's' : ''}.`);
 		}
 		else {
-			console.error(`POST Error ${result.error.code}: `.red + result.error.message);
+			console.error(`POST Error: ${result.error.code}. `.red + result.error.message);
 			break;
 		}
 	}
 }
 
 const err1 = 0
-const token42 = err1 ? '' : 'db812164ba193432951ca26fba15c03d5f61e6ea26377b20c10e1fc5ee9b1d6c'
+const token42 = err1 ? '' : process.env.TOKEN_42
 const err2 = 0
-const tokenGoogle = err2 ? '' : 'ya29.a0Ad52N39_wXuICQQCJBAcPXaYIvz1-EjaXAOCoMKFt0jyH2UpUkYYUIIT-3rAPMb7RQswstmcT9FWewoVCw_jK_6IaUeET-O4IpvFxNviWIpk9Rxb948Y1Azya8tT94wJ7PV5ndzjRzbm3CV_JY_Hnoc38DV7Hk7J6LsoaCgYKAfISARASFQHGX2MiRXAaYFicRQehm8HPdrIR7Q0171'
+const tokenGoogle = err2 ? '' : process.env.TOKEN_GOOGLE
 const begin_at = '2024-04-15'
 const end_at = '2024-04-22' // Excluded from scope, so count 1 more day
 
 main()
 
-// .env
 // Token creation (+ recréé seulement si expiré)

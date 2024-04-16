@@ -1,7 +1,7 @@
 import "colors"
 
 const main = async (begin_at, end_at, token42, tokenGoogle) => {
-	async function getEvents() {
+	async function getEvents(exam) {
 		const myHeaders = new Headers();
 		myHeaders.append("Authorization", `Bearer ${token42}`);
 
@@ -11,7 +11,8 @@ const main = async (begin_at, end_at, token42, tokenGoogle) => {
 			redirect: "follow"
 		};
 
-		const result = await fetch(`https://api.intra.42.fr/v2/campus/12/events?range[begin_at]=${begin_at}, ${end_at}`, requestOptions)
+		console.log(`Getting ${exam ? 'exams' : 'events'}...`.blue)
+		const result = await fetch(`https://api.intra.42.fr/v2/campus/12/${exam ? 'exams' : 'events'}?range[begin_at]=${begin_at}, ${end_at}`, requestOptions)
 			.then((response) => response.json())
 			.then((result) => result)
 			.catch((error) => console.error(error));
@@ -33,7 +34,7 @@ const main = async (begin_at, end_at, token42, tokenGoogle) => {
 					"end": {
 						"dateTime": result[i].end_at
 					},
-					"colorId": "5"
+					"colorId": `${exam ? '4' : '5'}`
 				});
 				/*
 					'1' Lavender
@@ -75,19 +76,24 @@ const main = async (begin_at, end_at, token42, tokenGoogle) => {
 			.catch((error) => console.error(error));
 	}
 
-	const events = await getEvents()
+	const events = await getEvents(0)
+	if (!events) return null
+	const exams = await getEvents(1)
+	if (!exams) return null
+
+	for (let i = 0; i < exams.length; i++) { events.push(exams[i]) }
 
 	// console.log(events)
-	if (!events || !events.length) {
+	if (!events.length) {
 		console.log("No events to create.".yellow)
 		return null
 	}
-	console.log("GET OK!".green + " Creating events...")
+	console.log("GET OK!".green + " Inserting...".blue)
 
 	for (let i = 0; i < events.length; i++) {
 		const result = await newPostEvents(events[i])
 		if (result.status === 'confirmed') {
-			console.log("POST OK!".green + ` Created ${i + 1} event${i ? 's' : ''}.`)
+			console.log("POST OK!".green + ` Inserted ${i + 1} event${i ? 's' : ''}.`)
 		}
 		else {
 			console.error(`POST Error ${result.error.code}: `.red + result.error.message)
@@ -96,13 +102,11 @@ const main = async (begin_at, end_at, token42, tokenGoogle) => {
 	}
 }
 
-const token42 = 'oui'
-// const token42 = 'adef4d87d37ba7f43dec3b134a2612813a68abccf16882b2b58e84f139642f10'
-const tokenGoogle = 'oui'
-// const tokenGoogle = 'ya29.a0Ad52N383baQ9j5PkjMIr0HLkyASKRooSfnfdbtJ3wKsWibFrH0wV8euF9T4HCGll_PNvo0-0S_5185SEJCZm42wvcy7aDViVueGtN7j6qa2Y6LeYHRsRXbugdcMRIl2fESVYfR4oDs7mb2FOG6uNi3qrbx0VCc5vr2CVaCgYKAdISARASFQHGX2MiVc7q5-DoOpu4D0Bde-uwkQ0171'
+const err1 = 0
+const token42 = err1 ? '' : 'db812164ba193432951ca26fba15c03d5f61e6ea26377b20c10e1fc5ee9b1d6c'
+const err2 = 0
+const tokenGoogle = err2 ? '' : 'ya29.a0Ad52N39_wXuICQQCJBAcPXaYIvz1-EjaXAOCoMKFt0jyH2UpUkYYUIIT-3rAPMb7RQswstmcT9FWewoVCw_jK_6IaUeET-O4IpvFxNviWIpk9Rxb948Y1Azya8tT94wJ7PV5ndzjRzbm3CV_JY_Hnoc38DV7Hk7J6LsoaCgYKAfISARASFQHGX2MiRXAaYFicRQehm8HPdrIR7Q0171'
 const begin_at = '2024-04-15'
-const end_at = '2024-04-15'
+const end_at = '2024-04-22'
 
 main(begin_at, end_at, token42, tokenGoogle)
-
-// Manage empty call returns 

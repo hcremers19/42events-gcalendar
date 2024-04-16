@@ -75,28 +75,28 @@ async function newPostEvents(events) {
 		.catch((error) => console.error(error));
 }
 
-const main = async () => {
-	const events = await getEvents(0)
-	if (!events) return null
-	const exams = await getEvents(1)
-	if (!exams) return null
+async function main() {
+	const events = await getEvents(0);
+	if (!events) return null;
+	const exams = await getEvents(1);
+	if (!exams) return null;
 
-	for (let i = 0; i < exams.length; i++) { events.push(exams[i]) }
+	for (let i = 0; i < exams.length; i++) { events.push(exams[i]); }
 
 	if (!events.length) {
-		console.log("No events to create.".yellow)
-		return null
+		console.log("No events to create.".yellow);
+		return null;
 	}
-	console.log("GET OK!".green + " Inserting...".blue)
+	console.log("GET OK!".green + " Inserting...".blue);
 
 	for (let i = 0; i < events.length; i++) {
-		const result = await newPostEvents(events[i])
+		const result = await newPostEvents(events[i]);
 		if (result.status === 'confirmed') {
-			console.log("POST OK!".green + ` Inserted ${i + 1} event${i ? 's' : ''}.`)
+			console.log("POST OK!".green + ` Inserted ${i + 1} event${i ? 's' : ''}.`);
 		}
 		else {
-			console.error(`POST Error ${result.error.code}: `.red + result.error.message)
-			break
+			console.error(`POST Error ${result.error.code}: `.red + result.error.message);
+			break;
 		}
 	}
 }
@@ -109,3 +109,6 @@ const begin_at = '2024-04-15'
 const end_at = '2024-04-22' // Excluded from scope, so count 1 more day
 
 main()
+
+// .env
+// Token creation (+ recréé seulement si expiré)

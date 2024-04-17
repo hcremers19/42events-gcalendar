@@ -5,23 +5,24 @@ This is a small script that allows students from School 42 to export the events 
 ## Install
 
 Clone the repository
-```bash
+```sh
 git clone git@github.com:hcremers19/42events-gcalendar.git && cd 42events-gcalendar
 ```
 
 Install the modules
-```bash
+```sh
 yarn install
 ```
 
 Rename `.env.example` to `.env` and insert your current tokens where needed. (You need to have a [42API app](https://api.intra.42.fr/apidoc/guides/getting_started) and a [Google Developer app](https://console.cloud.google.com/) setup)
-```settings
+```properties
+CALENDAR_ID=<usually your email>
 TOKEN_42=<your token here>
 TOKEN_GOOGLE=<your token here>
 ```
 
 Run
-```bash
+```sh
 yarn test
 ```
 

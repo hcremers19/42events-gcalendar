@@ -2,7 +2,7 @@ import "colors"
 
 async function getEvents(exam) {
 	const myHeaders = new Headers();
-	myHeaders.append("Authorization", `Bearer ${token42}`);
+	myHeaders.append("Authorization", `Bearer ${TOKEN_42}`);
 
 	const requestOptions = {
 		method: "GET",
@@ -59,25 +59,23 @@ async function getEvents(exam) {
 	}
 }
 
-async function newPostEvents(events) {
+async function postEvent(method, event) {
 	const myHeaders = new Headers();
 	myHeaders.append("Content-Type", "application/json");
-	myHeaders.append("Authorization", `Bearer ${tokenGoogle}`);
+	myHeaders.append("Authorization", `Bearer ${TOKEN_GOOGLE}`);
 
-	const raw = JSON.stringify(events);
+	const raw = JSON.stringify(event);
 
 	const requestOptions = {
-		method: "POST",
+		method: method,
 		headers: myHeaders,
 		body: raw,
 		redirect: "follow"
 	};
 
-	return fetch("https://www.googleapis.com/calendar/v3/calendars/ion@s19.be/events", requestOptions)
+	return fetch(`https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events${method === 'PUT' ? '/' + event.id : ''}`, requestOptions)
 		.then((response) => response.json())
-		.then((result) => {
-			return result;
-		})
+		.then((result) => result)
 		.catch((error) => console.error(error));
 }
 
@@ -96,7 +94,7 @@ async function main() {
 	console.log("GET OK!".green + " Inserting...".blue);
 
 	for (let i = 0; i < events.length; i++) {
-		const result = await newPostEvents(events[i]);
+		const result = await postEvent('POST', events[i]);
 		if (result.status === 'confirmed') {
 			console.log("POST OK!".green + ` Inserted ${i + 1} event${i ? 's' : ''}.`);
 		}
@@ -108,9 +106,12 @@ async function main() {
 }
 
 const err1 = 0
-const token42 = err1 ? '' : process.env.TOKEN_42
 const err2 = 0
-const tokenGoogle = err2 ? '' : process.env.TOKEN_GOOGLE
+
+const CALENDAR_ID = process.env.CALENDAR_ID
+const TOKEN_42 = err1 ? '' : process.env.TOKEN_42
+const TOKEN_GOOGLE = err2 ? '' : process.env.TOKEN_GOOGLE
+
 const begin_at = '2024-04-15'
 const end_at = '2024-04-22' // Excluded from scope, so count 1 more day
 

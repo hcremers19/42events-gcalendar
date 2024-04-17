@@ -1,6 +1,6 @@
 import "colors"
 import { get } from "./api/42.js";
-import { listEvents, postEvent } from "./api/gcal.js";
+import { insert, list } from "./api/gcal.js";
 
 async function main() {
 	const events = await get('events', params);
@@ -9,7 +9,6 @@ async function main() {
 	const exams = await get('exams', params);
 	if (!exams)
 		return null;
-	const calendar = await listEvents();
 
 	for (let i = 0; i < exams.length; i++)
 		events.push(exams[i]);
@@ -18,16 +17,17 @@ async function main() {
 		console.log("No events to create.".yellow);
 		return null;
 	}
-	console.log("GET OK!".green + " Inserting...".blue);
+	console.log("GET OK!".green);
+	console.log("Listing...".blue);
+
+	const calendar = await list(params);
+	if (!calendar)
+		return null;
 
 	for (let i = 0; i < events.length; i++) {
-		const result = await postEvent('POST', events[i]);
-		if (result.status === 'confirmed')
-			console.log("POST OK!".green + ` Inserted ${i + 1} event${i ? 's' : ''}.`);
-		else {
-			console.error(`POST Error: ${result.error.code}. `.red + result.error.message);
+		const result = await insert('POST', events[i], params);
+		if (!result)
 			break;
-		}
 	}
 }
 
@@ -41,6 +41,5 @@ const params = {
 	begin_at: '2024-04-15',
 	end_at: '2024-04-22', // Excluded from scope, so count 1 more day
 }
-
 
 main()

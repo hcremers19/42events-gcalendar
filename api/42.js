@@ -39,7 +39,7 @@ export async function get(scope, params) {
 				"end": {
 					"dateTime": result[i].end_at
 				},
-				"colorId": `${scope === 'events' ? '4' : '5'}` // '4' = Flamingo, '5' = Banana
+				"colorId": `${scope === 'exams' ? '4' : '5'}` // '4' = Flamingo, '5' = Banana
 			});
 		}
 		return ret;

@@ -5,7 +5,7 @@
   "author": "ion",
   "license": "MIT",
   "scripts": {
-    "test": "node --env-file=.env agenda.js"
+    "test": "node --env-file=.env index.js"
   },
   "dependencies": {
     "colors": "^1.4.0"

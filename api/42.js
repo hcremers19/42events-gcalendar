@@ -30,15 +30,12 @@ export async function get(scope, params) {
 		const ret = [];
 		for (let i = 0; i < result.length; i++) {
 			ret.push({
+				"id": `${scope === 'exams' ? 'b' : 'a'}` + result[i].id,
 				"summary": result[i].name,
 				"description": result[i].description,
 				"location": result[i].location,
-				"start": {
-					"dateTime": result[i].begin_at
-				},
-				"end": {
-					"dateTime": result[i].end_at
-				},
+				"start": { "dateTime": result[i].begin_at },
+				"end": { "dateTime": result[i].end_at },
 				"colorId": `${scope === 'exams' ? '4' : '5'}` // '4' = Flamingo, '5' = Banana
 			});
 		}

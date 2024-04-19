@@ -18,17 +18,16 @@ async function main() {
 		return null;
 	}
 	console.log("GET OK!".green);
-	console.log("Listing...".blue);
 
-	const calendar = await list(params);
-	if (!calendar)
-		return null;
-
-	for (let i = 0; i < events.length; i++) {
+	let i = 0;
+	while (i < events.length) {
 		const result = await insert('POST', events[i], params);
 		if (!result)
 			break;
+		else
+			i++;
 	}
+	console.log(`Updated ${i} event${i === 1 ? '' : 's'}.`.blue)
 }
 
 const err1 = 0

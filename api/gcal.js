@@ -1,5 +1,21 @@
 import "colors"
 
+async function get(event, params) {
+	const myHeaders = new Headers();
+	myHeaders.append("Authorization", `Bearer ${params.TOKEN_GOOGLE}`);
+
+	const requestOptions = {
+		method: "GET",
+		headers: myHeaders,
+		redirect: "follow"
+	};
+
+	return fetch(`https://www.googleapis.com/calendar/v3/calendars/${params.CALENDAR_ID}/events/${event.id}`, requestOptions)
+		.then((response) => response.json())
+		.then((result) => result)
+		.catch((error) => console.error(error));
+}
+
 export async function insert(method, event, params) {
 	const myHeaders = new Headers();
 	myHeaders.append("Content-Type", "application/json");
@@ -20,9 +36,9 @@ export async function insert(method, event, params) {
 		.catch((error) => console.error(error));
 
 	if (result.error) {
-		if (result.error.code === 409) {
+		if (result.error.code === 409)
 			return insert('PUT', event, params);
-		} else {
+		else {
 			console.error(`${method} Error: ${result.error.code}. `.red + result.error.message);
 			return null;
 		}
@@ -33,7 +49,7 @@ export async function insert(method, event, params) {
 	}
 }
 
-export async function list(params) {
+async function list(params) {
 	const myHeaders = new Headers();
 	myHeaders.append("Authorization", `Bearer ${params.TOKEN_GOOGLE}`);
 

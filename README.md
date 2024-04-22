@@ -28,7 +28,6 @@ yarn test
 
 ## Roadmap
 
-- Don't insert doubles
 - Generate the tokens in the app via the user's client id and client secret
 - Convert the script into a web app
 - Allow the user to change the dates and the colors in-app

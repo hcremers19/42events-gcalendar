@@ -19,7 +19,7 @@ export async function getToken() {
 		return null;
 	}
 	else {
-		console.log("Token Generated".green)
+		console.log("Token generated".green)
 		return result.access_token;
 	}
 }

@@ -1,5 +1,29 @@
 import "colors"
 
+export async function getToken() {
+	const requestOptions = {
+		method: "POST",
+		redirect: "follow"
+	};
+
+	const result = await fetch(`https://api.intra.42.fr/oauth/token?grant_type=client_credentials&client_id=${process.env.CLIENT_ID_42}&client_secret=${process.env.CLIENT_SECRET_42}`, requestOptions)
+		.then((response) => response.json())
+		.then((result) => result)
+		.catch((error) => console.error(error));
+
+	if (result.error) {
+		if (result.status) console.error(`GET Error: ${result.status}. `.red + result.error);
+		else if (result.message) console.error(`GET Error: ${result.error}. `.red + result.message);
+		else console.error(result);
+
+		return null;
+	}
+	else {
+		console.log("Token Generated".green)
+		return result.access_token;
+	}
+}
+
 export async function get(scope, params) {
 	const myHeaders = new Headers();
 	myHeaders.append("Authorization", `Bearer ${params.TOKEN_42}`);
@@ -17,12 +41,9 @@ export async function get(scope, params) {
 		.catch((error) => console.error(error));
 
 	if (result.error) {
-		if (result.status)
-			console.error(`GET Error: ${result.status}. `.red + result.error);
-		else if (result.message)
-			console.error(`GET Error: ${result.error}. `.red + result.message);
-		else
-			console.error(result);
+		if (result.status) console.error(`GET Error: ${result.status}. `.red + result.error);
+		else if (result.message) console.error(`GET Error: ${result.error}. `.red + result.message);
+		else console.error(result);
 
 		return null;
 	}

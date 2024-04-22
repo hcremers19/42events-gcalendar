@@ -1,5 +1,5 @@
 import "colors"
-import { get } from "./api/42.js";
+import { get, getToken } from "./api/42.js";
 import { insert } from "./api/gcal.js";
 
 async function main() {
@@ -33,9 +33,11 @@ async function main() {
 const err1 = 0
 const err2 = 0
 
+const token_42 = await getToken()
+
 const params = {
 	CALENDAR_ID: process.env.CALENDAR_ID,
-	TOKEN_42: err1 ? '' : process.env.TOKEN_42,
+	TOKEN_42: err1 ? '' : token_42,
 	TOKEN_GOOGLE: err2 ? '' : process.env.TOKEN_GOOGLE,
 	begin_at: '2024-04-22',
 	end_at: '2024-04-29', // Excluded from scope, so count 1 more day

@@ -11,18 +11,12 @@ git clone git@github.com:hcremers19/42events-gcalendar.git && cd 42events-gcalen
 
 Install the modules
 ```sh
-npm install
-```
-```sh
 yarn install
 ```
 
 Rename `.env.example` to `.env` and insert the credentials needed. (You need to have a [42API app](https://api.intra.42.fr/apidoc/guides/getting_started) and a [Google Developer app](https://console.cloud.google.com/) setup)
 
-Run
-```sh
-npm start
-```
+Run the script
 ```sh
 yarn start
 ```

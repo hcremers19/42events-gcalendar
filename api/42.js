@@ -6,20 +6,22 @@ export async function getToken() {
 		redirect: "follow"
 	};
 
+	console.log("[42] ".grey + `Generating token...`.blue)
 	const result = await fetch(`https://api.intra.42.fr/oauth/token?grant_type=client_credentials&client_id=${process.env.CLIENT_ID_42}&client_secret=${process.env.CLIENT_SECRET_42}`, requestOptions)
 		.then((response) => response.json())
 		.then((result) => result)
 		.catch((error) => console.error(error));
 
 	if (result.error) {
-		if (result.status) console.error(`GET Error: ${result.status}. `.red + result.error);
-		else if (result.message) console.error(`GET Error: ${result.error}. `.red + result.message);
+		if (result.status) console.error("[42] ".grey + `GET Error: ${result.status}. `.red + result.error);
+		else if (result.message) console.error("[42] ".grey + `GET Error: ${result.error}. `.red + result.message);
+		else if (result.error_description) console.error("[42] ".grey + `GET Error: ${result.error}. `.red + result.error_description);
 		else console.error(result);
 
 		return null;
 	}
 	else {
-		console.log("Token generated".green)
+		console.log("[42] ".grey + "Token generated".green)
 		return result.access_token;
 	}
 }
@@ -34,15 +36,16 @@ export async function get(scope, params) {
 		redirect: "follow"
 	};
 
-	console.log(`Getting ${scope}...`.blue)
+	console.log("[42] ".grey + `Getting ${scope}...`.blue)
 	const result = await fetch(`https://api.intra.42.fr/v2/campus/12/${scope}?range[begin_at]=${params.begin_at}, ${params.end_at}`, requestOptions)
 		.then((response) => response.json())
 		.then((result) => result)
 		.catch((error) => console.error(error));
 
 	if (result.error) {
-		if (result.status) console.error(`GET Error: ${result.status}. `.red + result.error);
-		else if (result.message) console.error(`GET Error: ${result.error}. `.red + result.message);
+		if (result.status) console.error("[42] ".grey + `GET Error: ${result.status}. `.red + result.error);
+		else if (result.message) console.error("[42] ".grey + `GET Error: ${result.error}. `.red + result.message);
+		else if (result.error_description) console.error("[42] ".grey + `GET Error: ${result.error}. `.red + result.error_description);
 		else console.error(result);
 
 		return null;

@@ -39,12 +39,12 @@ export async function insert(method, event, params) {
 		if (result.error.code === 409)
 			return insert('PUT', event, params);
 		else {
-			console.error(`${method} Error: ${result.error.code}. `.red + result.error.message);
+			console.error("[Google] ".grey + `${method} Error: ${result.error.code}. `.red + result.error.message);
 			return null;
 		}
 	}
 	else {
-		console.log(`${method} OK!`.green);
+		console.log("[Google] ".grey + `${method} OK!`.green);
 		return result;
 	}
 }
@@ -65,11 +65,11 @@ async function list(params) {
 		.catch((error) => console.error(error));
 
 	if (result.error) {
-		console.error(`GET Error: ${result.error.code}. `.red + result.error.message);
+		console.error("[Google] ".grey + `GET Error: ${result.error.code}. `.red + result.error.message);
 		return null;
 	}
 	else {
-		console.log("GET OK!".green);
+		console.log("[Google] ".grey + "GET OK!".green);
 		return result.items;
 	}
 }

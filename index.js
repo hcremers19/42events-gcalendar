@@ -3,6 +3,8 @@ import { get, getToken } from "./api/42.js";
 import { insert } from "./api/gcal.js";
 
 async function main() {
+	console.log("[Info] Fetching events from ".grey + `${process.env.BEGIN_AT}`.underline + " to ".grey + `${process.env.END_AT}`.underline)
+
 	const token_42 = await getToken();
 	if (!token_42) return null;
 
@@ -12,10 +14,12 @@ async function main() {
 		TOKEN_GOOGLE: err2 ? '' : process.env.TOKEN_GOOGLE,
 		begin_at: process.env.BEGIN_AT,
 		end_at: process.env.END_AT,
-	}
+	}	
 
-	const events = await get('events', params);
-	if (!events) return null;
+	// const events = await get('events', params);
+	// if (!events) return null;
+
+	const events = [];
 
 	const exams = await get('exams', params);
 	if (!exams) return null;
